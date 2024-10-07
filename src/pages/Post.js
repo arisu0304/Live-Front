@@ -1,12 +1,16 @@
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { post } from '../apis/boardApis';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 const Post = () => {
     const nickname = useSelector(state => state.memberSlice.nickname);
     const isLogin = useSelector(state => state.memberSlice.isLogin);
+
+    const [auctionStart, setAuctionStart] = useState(null);
 
     const navi = useNavigate();
 
@@ -106,7 +110,7 @@ const Post = () => {
             imageLoader(file);
             uploadFiles.push(file);
         })
-    }, []);
+    }, [uploadFiles]);
 
     useEffect(() => {
         if(!isLogin) {
@@ -125,6 +129,8 @@ const Post = () => {
 
         formData.forEach((v, k) => formDataObj[k] = v);
 
+        formDataObj['auctionStart'] = auctionStart ? auctionStart.format('YYYY-MM-DDTHH:mm:ss') : '';
+
         const boardDto = new Blob([JSON.stringify(formDataObj)], {
             type: 'application/json'
         });
@@ -135,6 +141,8 @@ const Post = () => {
 
         Array.from(uploadFiles).forEach(file => sendFormData.append('uploadFiles', file));
 
+        console.log(uploadFiles);
+
         dispatch(post(sendFormData)).then((action) => {
             if(action.type === 'boards/post/fulfilled') {
                 navi('/board-list');
@@ -144,6 +152,7 @@ const Post = () => {
     }, [dispatch, navi, uploadFiles]); 
 
   return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
     <Container maxWidth='md' style={{marginTop: '3%', textAlign: 'center'}}>
         <Grid container>
             <Grid item xs={12}>
@@ -211,6 +220,21 @@ const Post = () => {
                                rows={10}></TextField>
                 </Grid>
             </Grid>
+
+            <Grid container style={{ marginTop: '3%', textAlign: 'center' }}>
+                <Grid item xs={2} style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Typography component='p' variant='string'>
+                        경매 시작시간
+                    </Typography>
+                </Grid>
+                <Grid item xs={10}>
+                        <DateTimePicker
+                            label="경매 시작시간"
+                            onChange={(newValue) => setAuctionStart(newValue)} // 값 변경 시 상태 업데이트
+                        />
+                </Grid>
+            </Grid>
+
             <Grid container style={{marginTop: '3%', textAlign: 'center'}}>
                 <Grid item
                       xs={2}
@@ -230,6 +254,7 @@ const Post = () => {
                            onChange={changeFiles}></input>
                 </Grid>
             </Grid>
+
             <Grid container style={{marginTop: '3%', textAlign: 'center'}}>
                 <Grid item
                       xs={2}
@@ -251,6 +276,7 @@ const Post = () => {
             </Grid>
         </form>
     </Container>
+    </LocalizationProvider>
   );
 };
 

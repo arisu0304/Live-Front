@@ -411,6 +411,24 @@ const Board = () => {
                       xs={2}
                       style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                         <Typography component='p' variant='string'>
+                            경매 시작 시간
+                        </Typography>
+                </Grid>
+                <Grid item
+                      xs={10}>
+                    <TextField name='auctionStart'
+                               id='auctionStart'
+                               fullWidth
+                               size='small'
+                               value={board != null ? board.auctionStart: ''}
+                               aria-readonly='true'></TextField>
+                </Grid>
+            </Grid>
+            <Grid container style={{marginTop: '3%', textAlign: 'center'}}>
+                <Grid item
+                      xs={2}
+                      style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+                        <Typography component='p' variant='string'>
                             파일첨부
                         </Typography>
                 </Grid>

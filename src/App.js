@@ -16,6 +16,9 @@ import CreateChannel from './pages/CreateChannel';
 import StreamingSetting from './pages/StreamingSetting';
 import Streaming from './pages/Streaming';
 import Live from './pages/Live';
+import LiveList from './pages/LiveList';
+import LiveRoom from './pages/LiveRoom';
+import AuctionRoom from './pages/AuctionRoom';
 
 function App() {
   const persiststore = persistStore(store);
@@ -28,16 +31,13 @@ function App() {
             <Route index element={<Home/>}/>
             <Route path='/join' element={<Join/>}/>
             <Route path='/login' element={<Login/>}/>
-            <Route path='/setting' element={<StreamingSetting/>}/>
-            <Route path='/create' element={<CreateChannel/>}/>
-            <Route path="/streaming" element={<Streaming />} />
-            <Route path="/streaming/:channelId" element={<Streaming />} />
             <Route path='/post' element={<Post/>}/>
             <Route path='/board-list' element={<BoardList/>}/>
             <Route path='/board/:id' element={<Board/>}/>
             <Route path='/chat' element={<Chatroom/>}/>
-            <Route path='/liveStream' element={<Live/>}/>
-            <Route path='/live' element={<LiveStream></LiveStream>}></Route>
+            <Route path='/liveList' element={<LiveList />} />
+            <Route path="/live/:id" element={<AuctionRoom />} />
+            <Route path="/live/streamingSetting/:id" element={<StreamingSetting />} />  {/* 스트리밍 설정 경로 */}
           </Route>
         </Routes>
       </PersistGate>

@@ -32,7 +32,7 @@ const Header = () => {
                         <Button color='inherit'>{nickname}</Button>
                         <Button color='inherit' onClick={handleLogout}>로그아웃</Button>
                         <Button color='inherit' onClick={() => navi('/chat')}>채팅방</Button>
-                        <Button color='inherit' onClick={() => navi('/create')}>생방송</Button>
+                        <Button color='inherit' onClick={() => navi('/liveList')}>생방송</Button>
                     </>
                     :
                     <>
